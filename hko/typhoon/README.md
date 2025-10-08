@@ -17,15 +17,14 @@ Tune the framerate and CRF as you wish
 
 If you leave the script running too long (like I do) then you will download dupes once HKO stops updating the image. (Or there may be dupes if HKO updates it less often, e.g. every 2 or 6 hours).
 
-To get rid of dupes we can hash the image and redirect all the unique ones via:
+To get rid of dupes we can hash the image and redirect all the unique ones via:w
 
 ```
-find . -maxdepth 1 -name "*.png" -print0 | xargs -0 shasum | sort | uniq -w 40 | awk '{print $2}' | sort > uniq.txt
+find . -maxdepth 1 -name "*.png" -print0 | xargs -0 shafind . -maxdepth 1 -name "*.png" -print0 | xargs -0 shasum | sort | uniq -w 40 | awk '{print "file " $2}'sum | sort | uniq -w 40 | awk '{print "file " $2}' > list.txt
 ```
 
 And then tell ffmpeg to concat them via:
 
 ```
-printf "file '%s'\n" $(cat uniq.txt) > list.txt
 ffmpeg -f concat -safe 0 -r 6 -i list.txt -c:v libx264 -crf 0 -vf "fps=6,format=yuv420p" output.mp4
 ```
